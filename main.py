@@ -1,4 +1,5 @@
 import re
+import json
 from configure import AddressBook, Record
 
 
@@ -56,16 +57,20 @@ def handler(parser_word):
 
 def main():
     print('Hello!')
-    while True:
+    with open('adressbook.json' 'r', newline='') as file:
+        adress_book = json.load(file)
+    while adress_book:
         user_input = input('Enter your command:').lower()
         if user_input == 'hello':
             print("How can I help you?")
         elif user_input in ["good bye", "close", "exit"]:
             print("Good bye!")
+            with open('adressbook.json' 'a', newline='') as file:
+                json.dump(AddressBook(), file)
             break
         else:
             parser_word, name, phone = parser_input(user_input)
-            command = handler(parser_word)
+            command = handler(list_parser_word)
             print(f'Your command {parser_word} was added successfully.')
 
 
